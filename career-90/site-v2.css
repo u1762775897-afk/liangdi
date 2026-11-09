@@ -93,3 +93,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 .keyword-cloud{display:flex;gap:5px;flex-wrap:wrap;padding:9px 0}
 .keyword-cloud span{font-size:10px;background:#f0f4f8;color:#5f7486;border-radius:6px;padding:4px 6px}
 @media(max-width:760px){.sources-audit{padding:12px}.source-items{grid-template-columns:1fr}.source-item{padding:9px}.source-status{flex-shrink:0}.scan-group{padding:0 10px}}
+
+/* What a BOSS direct-hiring job involves and applicant-specific assessment */
+.job-fit{border:1px solid #dfeaf1;background:#f8fbfd;border-radius:10px;margin:11px 0;padding:9px 11px;display:grid;gap:8px}
+.job-fit>div{border-bottom:1px solid #e4ecf2;padding-bottom:7px}
+.job-fit>div:last-child{border-bottom:0;padding-bottom:0}
+.job-fit strong{display:block;color:#32536d;font-size:11px;line-height:1.4}
+.job-fit p{margin:3px 0 0;font-size:11px;line-height:1.56;color:#526d80}
+@media(max-width:760px){.job-fit{padding:9px}.job-fit p{font-size:11px}}
