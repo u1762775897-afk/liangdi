@@ -20,7 +20,7 @@ const toDate=(d)=>d?new Date(d.slice(0,10)+"T00:00:00+08:00").getTime():null;
 const now=()=>Date.now();
 const isRecent=(j,n)=>{let t=toDate(j.post);let dif=t==null?100:Math.floor((now()-t)/86400000);return dif>=0&&dif<=n};
 const isNewToday=j=>j.post===todayCN();
-const enteredThisScan=j=>j.addedAt===DB.verifiedAsOf;
+const enteredThisScan=j=>j.addedBatch===DB.scanBatch;
 const deadlineTimestamp=j=>j.deadline?new Date(j.deadline).getTime():j.deadlineDate?new Date(j.deadlineDate+"T23:59:59+08:00").getTime():null;
 const daysToDeadline=j=>{let t=deadlineTimestamp(j);return t==null?999:Math.ceil((t-now())/86400000)};
 const isUrgent=j=>daysToDeadline(j)>=0&&daysToDeadline(j)<=3;
