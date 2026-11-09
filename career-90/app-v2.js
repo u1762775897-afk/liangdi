@@ -99,7 +99,7 @@ return arr;
 }
 function salaryValue(j){if(j.payUnit==="year")return (j.payMin||0)*10000;if(j.payUnit==="month")return (j.payMin||0)*10000*12;return -1}
 function jobCard(j){let urgent=isUrgent(j),ign=ignored.includes(j.id),star=starred.includes(j.id),recent=isRecent(j,7),expired=isExpired(j),type=j.type;
-let status=expired?"已截止／下线":j.status==="储备待确认"?"储备待核":j.status==="报名时段"?"报名期限明确":j.status==="有效性待核"?"是否在招待核":"资格待核";
+let status=expired?"已截止／下线":(j.status||"").includes("预公告")?"仅宣讲预告·未开报":j.status==="储备待确认"?"储备待核":j.status==="报名时段"?"报名期限明确":(j.status||"").includes("有效性待核")?"是否在招待核":(j.status||"").includes("可联系校方")?"可联系校方·资格待核":"资格待核";
 let t='<article class="job '+(urgent&&!expired?"urgent ":"")+(star?"starred":"")+'" data-job="'+esc(j.id)+'"><div class="jobhead"><div><h3>'+esc(j.title)+'</h3><div class="org">'+esc(j.org)+' · '+esc(j.city)+'</div></div><div class="headright"><span class="badge '+fitCls(j)+'">'+esc(j.fit||"待核实")+'</span></div></div>'+
 '<div class="badges"><span class="badge">'+esc(j.level||"")+'</span><span class="badge">'+esc(j.nature)+'</span><span class="badge '+(expired?"gray":"green")+'">'+esc(status)+'</span>'+(recent?'<span class="badge red">近7天公告</span>':"")+(isNewToday(j)?'<span class="badge red">今日发布</span>':"")+(enteredThisScan(j)?'<span class="badge gold">本次收录</span>':"")+'</div>'+
 '<div class="salarybox"><label>薪酬信息 · '+(j.payUnit==="none"?"未公开数字":"页面招聘标价")+'</label><strong>'+esc(j.pay)+'</strong><small>'+esc(j.payNote||"工资须向招聘单位核实")+'</small></div>'+
