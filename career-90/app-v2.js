@@ -2,6 +2,7 @@
 "use strict";
 const DB=window.CAREER_SCAN||{verifiedAsOf:"未知",updated:"未更新",jobs:[],meetings:[]};
 const JOBS=DB.jobs||[];
+const SOURCES=window.CAREER_SOURCES||{groups:[],keywords:{},updated:"未更新"};
 const byId=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function load(key){try{return JSON.parse(localStorage.getItem(key)||"[]")}catch(e){return []}}
@@ -66,7 +67,18 @@ return '<div class="hero"><small>'+(teacher?"ALL MUSIC EDUCATION":"CAREER · PUB
 '<div class="meta"><span id="listCount">整理中</span><span>'+(teacher?"右滑标星 · 左滑忽略 · 点击「已忽略」可恢复":"标星和忽略仅保存在当前浏览器")+'</span></div>'+
 '<div class="list" id="jobList"></div>'+
 (type==="career"?'<div class="section"><h2>事业单位扫描原则</h2></div><div class="callout">优先文化馆、艺术馆、歌舞院团、教育行政及综合管理岗。只列有证据的岗位；已过截止日期的只能作历史参考，不能标记为在招。当前已核实的非教学事业单位音乐类机会有限。</div>':mode==="watch"?'<div class="callout">综合招聘公告中“可能含音乐”不等于已确认音乐名额；必须检查官方岗位表，不能据整批人数推断。</div>':"")+
-'<div class="callout">数据截至 '+esc(DB.verifiedAsOf)+'。本次新收录是本站本轮收录，不代表今日新发布；“今日发布”按官方/招聘页日期。网站不是实时爬虫，未来数据须持续核验与写入。</div>';
+'<div class="callout">数据截至 '+esc(DB.verifiedAsOf)+'。本次新收录是本站本轮收录，不代表今日新发布；“今日发布”按官方/招聘页日期。网站不是实时爬虫，未来数据须持续核验与写入。</div>'+renderSourceAudit();
+}
+function renderSourceAudit(){
+ const groups=SOURCES.groups||[], items=groups.flatMap(g=>g.items||[]);
+ const checked=items.filter(x=>/已检查|已核|已检/.test(x[3])).length;
+ const pending=items.filter(x=>/待逐站|待核|待深入|待查/.test(x[3])).length;
+ const restricted=items.filter(x=>/超时|报错|受限/.test(x[3])).length;
+ const words=Object.values(SOURCES.keywords||{}).flat();
+ const chips=[["岗位同义词","disciplines"],["学段与学校","schoolTypes"],["用工形式","employment"],["资格匹配","audience"],["招聘信号","discovery"]];
+ const groupHtml=groups.map(g=>'<details class="scan-group"><summary><strong>'+esc(g.name)+'</strong><span class="scan-number">'+g.items.length+'个来源入口</span></summary><p class="fine" style="margin:8px 0">'+esc(g.description)+'</p><div class="source-items">'+g.items.map(x=>'<div class="source-item"><div><a href="'+esc(x[1])+'" target="_blank" rel="noopener noreferrer">'+esc(x[0])+' ↗</a><small>'+esc(x[2])+' · '+esc(x[4])+'</small></div><span class="source-status '+(/超时|报错/.test(x[3])?"problem":/待逐站|待深入|待查/.test(x[3])?"pending":"checked")+'">'+esc(x[3])+'</span></div>').join("")+'</div></details>').join("");
+ const keyHtml=chips.map(g=>{let w=SOURCES.keywords?.[g[1]]||[];return '<details class="keyword-group"><summary>'+esc(g[0])+' · '+w.length+'个起始词</summary><div class="keyword-cloud">'+w.map(t=>'<span>'+esc(t)+'</span>').join("")+'</div></details>'}).join("");
+ return '<div class="section"><h2>扫描来源与覆盖情况</h2><small>可折叠查看</small></div><details class="panel sources-audit"><summary class="source-main"><div><b>已纳入 '+items.length+' 个来源入口</b><small>政府公告／教师招聘网／高校招聘／综合平台</small></div><span class="source-expand">展开目录 ＋</span></summary><div class="source-summary"><span>已查看或检索 '+checked+' 个入口记录</span><span>后续需深入 '+pending+' 个</span><span>访问不顺畅 '+restricted+' 个</span></div><p class="fine">记录截至 '+esc(SOURCES.updated)+'。同一网站可能在不同招聘模块重复列出；“入口已检查”不代表所有岗位已逐条扫描，“待深入”也不代表网站没有职位。'+esc(SOURCES.method)+'</p>'+groupHtml+'<details class="scan-group"><summary><strong>动态扩展的检索关键词</strong><span class="scan-number">'+words.length+'个起始词</span></summary><p class="fine">不设固定关键词数量上限：把学科、岗位名称、学校学段、招聘方式、地区、年届、收入与资格组合，发现新的用语继续扩展。不能把词数等同于已完成搜索次数。</p>'+keyHtml+'</details></details>';
 }
 function selectedJobs(type){
 let arr=JOBS.filter(j=>j.type===type),teacher=type==="teacher",mode=teacher?teacherMode:careerMode,region=teacher?teacherRegion:careerRegion,level=teacher?teacherLevel:"all",sector=teacher?teacherNature:careerSector,date=teacher?teacherDate:careerDate,sort=teacher?teacherSort:careerSort,query=(teacher?searchTeacher:searchCareer).toLowerCase().trim();
