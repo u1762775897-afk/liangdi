@@ -64,3 +64,32 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 @media(max-width:1030px){.shell{grid-template-columns:204px minmax(0,1fr)}.main{padding:20px 20px 90px}.list{grid-template-columns:1fr}}
 @media(max-width:760px){.shell{display:block}.sidebar{display:none}.main{padding:17px 11px 100px}.top h1{font-size:23px}.top p{font-size:11px}.stamp{font-size:9px}.hero{padding:19px;border-radius:14px}.hero h2{font-size:20px}.panel{padding:14px}.quick{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.quick button{min-height:79px;padding:12px}.filters{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.filters .search{grid-column:span 2}.filters.two{grid-template-columns:repeat(2,minmax(0,1fr))}.metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric{padding:11px}.metric strong{font-size:20px}.list{grid-template-columns:1fr}.job{padding:13px}.salarybox strong{font-size:19px}.study-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.study-card{padding:12px}.study-card strong{font-size:17px}.pay-top{grid-template-columns:1fr}.big-value{font-size:33px}.pay-graph{aspect-ratio:720/280}.bottom{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;position:fixed;bottom:0;left:0;right:0;z-index:50;background:white;border-top:1px solid var(--line);padding:5px 4px calc(7px + env(safe-area-inset-bottom))}.bottom button{border:0;background:transparent;color:#71869a;font-size:10px;line-height:1.1;padding:7px 2px;border-radius:8px;font-weight:800;min-width:0}.bottom button b{display:block;font-size:18px;margin-bottom:5px}.bottom button.active{background:#e7f0f8;color:#234e70}}
 @media(max-width:400px){.main{padding-left:9px;padding-right:9px}.filters{gap:6px}.dates strong{font-size:11px}.job h3{font-size:14px}.top h1{font-size:21px}.badge{font-size:9px}.tabs button,.chips button{font-size:10px;padding:7px 8px}.pay-tabs button{font-size:11px}.pay-metrics strong{font-size:18px}}
+
+/* Auditable, collapsible recruitment source inventory */
+.sources-audit{padding:14px 16px;margin-top:12px}
+.sources-audit summary{cursor:pointer;list-style:none}
+.sources-audit summary::-webkit-details-marker{display:none}
+.source-main{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.source-main b{font-size:13px}
+.source-main small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.source-expand{font-size:11px;color:#2c638f;white-space:nowrap;font-weight:800}
+.sources-audit[open]>.source-main .source-expand{color:#8b6c46}
+.source-summary{display:flex;flex-wrap:wrap;gap:6px;margin:13px 0 11px}
+.source-summary span{font-size:10px;color:#4d6b82;padding:5px 8px;background:#edf3f9;border-radius:6px}
+.scan-group{border:1px solid #e3eaf1;border-radius:10px;margin:9px 0;padding:0 12px}
+.scan-group>summary{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0}
+.scan-group>summary strong{font-size:12px}
+.scan-number{font-size:10px;color:#6b8195}
+.source-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding-bottom:12px}
+.source-item{display:flex;justify-content:space-between;gap:7px;align-items:flex-start;border:1px solid #e7edf3;background:#fbfcfe;border-radius:9px;padding:10px;min-width:0}
+.source-item a{font-size:11px;font-weight:750;overflow-wrap:anywhere}
+.source-item small{font-size:10px;color:#768b9e;display:block;margin-top:3px}
+.source-status{font-size:9px;font-weight:750;border-radius:5px;padding:3px 6px;white-space:normal;text-align:center;max-width:100px}
+.source-status.checked{color:#266c59;background:#e9f6f0}
+.source-status.pending{color:#866c34;background:#f8f1df}
+.source-status.problem{color:#b23045;background:#fff0f1}
+.keyword-group{border-top:1px solid #e8edf2;padding:8px 0}
+.keyword-group summary{font-size:11px;font-weight:750;color:#366483}
+.keyword-cloud{display:flex;gap:5px;flex-wrap:wrap;padding:9px 0}
+.keyword-cloud span{font-size:10px;background:#f0f4f8;color:#5f7486;border-radius:6px;padding:4px 6px}
+@media(max-width:760px){.sources-audit{padding:12px}.source-items{grid-template-columns:1fr}.source-item{padding:9px}.source-status{flex-shrink:0}.scan-group{padding:0 10px}}
