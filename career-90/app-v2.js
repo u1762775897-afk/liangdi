@@ -56,7 +56,7 @@ function renderRecruitment(type){
 const teacher=type==="teacher",mode=teacher?teacherMode:careerMode,region=teacher?teacherRegion:careerRegion,level=teacher?teacherLevel:"all",nature=teacher?teacherNature:careerSector,date=teacher?teacherDate:careerDate,sort=teacher?teacherSort:careerSort,query=teacher?searchTeacher:searchCareer;
 const all=JOBS.filter(j=>j.type===type),nIgnored=all.filter(j=>ignored.includes(j.id)).length;
 const teacherModes=[["music","全部音乐"],["fresh","新收录"],["today","今日发布"],["watch","待核公告"],["ignored","已忽略 ("+nIgnored+")"]];
-const careerModes=[["all","全部职业"],["public","事业单位"],["state","国企"],["enterprise","企业"],["admin","高校行政"],["ignored","已忽略 ("+nIgnored+")"]];
+const careerModes=[["all","全部职业"],["boss","BOSS直聘"],["public","事业单位"],["state","国企"],["enterprise","企业"],["admin","高校行政"],["ignored","已忽略 ("+nIgnored+")"]];
 const modes=teacher?teacherModes:careerModes;
 const levelOptions=[["all","全部学段"],["小学","小学"],["初中","初中"],["高中","高中"],["中职","中职／技工"],["高职","高职／专科"],["高校","本科／高校"],["义务教育","义务教育"]];
 const kinds=teacher?[["all","全部性质"],["事业编制","公办编制"],["民办","民办／合同"],["公办非编","公办非编／代课"],["高校","高校事业／高校"]]:[["all","全部类型"],["事业单位","事业单位"],["国企","国企"],["企业","企业"],["高校行政","高校行政"]];
@@ -86,7 +86,7 @@ arr=arr.filter(j=>{
 const ig=ignored.includes(j.id);
 if(mode==="ignored")return ig;else if(ig)return false;
 if(teacher){if(mode!=="watch"&&mode!=="ignored"&&!j.musicConfirmed)return false;if(mode==="watch"&&j.musicConfirmed)return false;if(mode==="fresh"&&!enteredThisScan(j))return false;if(mode==="today"&&!isNewToday(j))return false;if(level!=="all"&&j.level!==level)return false;if(sector==="事业编制"&&!/事业编制/.test(j.nature||""))return false;if(sector==="民办"&&!/民办/.test(j.nature||""))return false;if(sector==="公办非编"&&!/合同代课|编外|购买服务/.test(j.nature||""))return false;if(sector==="高校"&&!/高校|高职/.test(j.nature||""))return false;if(onlyFit&&/不符|偏弱/.test(j.fit||""))return false;
-}else{let sec=j.sector||(j.nature==="国企岗位"?"国企":j.nature==="高校行政岗"?"高校行政":"企业");if(mode==="public"&&sec!=="事业单位")return false;if(mode==="state"&&sec!=="国企")return false;if(mode==="enterprise"&&sec!=="企业")return false;if(mode==="admin"&&sec!=="高校行政")return false;if(sector!=="all"&&sec!==sector)return false;}
+}else{let sec=j.sector||(j.nature==="国企岗位"?"国企":j.nature==="高校行政岗"?"高校行政":"企业");if(mode==="boss"&&j.jobPlatform!=="BOSS直聘")return false;if(mode==="public"&&sec!=="事业单位")return false;if(mode==="state"&&sec!=="国企")return false;if(mode==="enterprise"&&sec!=="企业")return false;if(mode==="admin"&&sec!=="高校行政")return false;if(sector!=="all"&&sec!==sector)return false;}
 if(!inArea(j,region))return false;
 if(date!=="all"&&!isRecent(j,Number(date)))return false;
 if(!showPast&&isExpired(j)&&mode!=="ignored")return false;
@@ -99,13 +99,14 @@ return arr;
 }
 function salaryValue(j){if(j.payUnit==="year")return (j.payMin||0)*10000;if(j.payUnit==="month")return (j.payMin||0)*10000*12;return -1}
 function jobCard(j){let urgent=isUrgent(j),ign=ignored.includes(j.id),star=starred.includes(j.id),recent=isRecent(j,7),expired=isExpired(j),type=j.type;
-let status=expired?"已截止／下线":(j.status||"").includes("预公告")?"仅宣讲预告·未开报":j.status==="储备待确认"?"储备待核":j.status==="报名时段"?"报名期限明确":(j.status||"").includes("有效性待核")?"是否在招待核":(j.status||"").includes("可联系校方")?"可联系校方·资格待核":"资格待核";
+let status=expired?"已截止／下线":(j.status||"").includes("预公告")?"仅宣讲预告·未开报":j.status==="储备待确认"?"储备待核":j.status==="报名时段"?"报名期限明确":(j.status||"").includes("有效性待核")?"是否在招待核":(j.status||"").includes("可联系校方")?"可联系校方·资格待核":j.jobPlatform==="BOSS直聘"?"BOSS线索·在招待核":"资格待核";
 let t='<article class="job '+(urgent&&!expired?"urgent ":"")+(star?"starred":"")+'" data-job="'+esc(j.id)+'"><div class="jobhead"><div><h3>'+esc(j.title)+'</h3><div class="org">'+esc(j.org)+' · '+esc(j.city)+'</div></div><div class="headright"><span class="badge '+fitCls(j)+'">'+esc(j.fit||"待核实")+'</span></div></div>'+
 '<div class="badges"><span class="badge">'+esc(j.level||"")+'</span><span class="badge">'+esc(j.nature)+'</span><span class="badge '+(expired?"gray":"green")+'">'+esc(status)+'</span>'+(recent?'<span class="badge red">近7天公告</span>':"")+(isNewToday(j)?'<span class="badge red">今日发布</span>':"")+(enteredThisScan(j)?'<span class="badge gold">本次收录</span>':"")+'</div>'+
 '<div class="salarybox"><label>薪酬信息 · '+(j.payUnit==="none"?"未公开数字":"页面招聘标价")+'</label><strong>'+esc(j.pay)+'</strong><small>'+esc(j.payNote||"工资须向招聘单位核实")+'</small></div>'+
 '<div class="dates"><div class="'+(recent?"urgent":"")+'"><label>'+esc(j.dateType||"公告时间")+'</label><strong>'+pDate(j.post)+'</strong></div><div class="'+(urgent&&!expired?"urgent":"")+'"><label>报名截止（北京时间）</label><strong>'+pDeadline(j)+'</strong></div></div>'+
-'<div class="jobdetails"><b>资格判断：</b>'+esc(j.fitNote||"需核实具体专业及证书要求")+'<details><summary>查看岗位要求与来源</summary><p>'+esc(j.detail||"")+'</p><p>来源：'+esc(j.source||"招聘原页")+'。核验快照：'+esc(DB.verifiedAsOf)+'</p></details></div>'+
-'<div class="jobactions"><a href="'+esc(j.url)+'" target="_blank" rel="noopener noreferrer">公告／岗位原页 ↗</a><button data-star="'+esc(j.id)+'">'+(star?"★ 取消标星":"☆ 标星")+'</button><button data-ignore="'+esc(j.id)+'">'+(ign?"恢复岗位":"忽略")+'</button></div></article>';
+(j.type==="career"?'<div class="job-fit"><div><strong>这份工作做什么</strong><p>'+esc(j.duties||j.detail||"职责需要阅读原文确认")+'</p></div><div><strong>与你有什么关联</strong><p>'+esc(j.relevance||"请结合音乐教学、留学和组织经验逐项判断")+'</p></div><div><strong>你能不能做</strong><p>'+esc(j.canApply||j.fitNote||"尚待确认报名资格")+'</p></div></div>':"")+
+'<div class="jobdetails"><b>资格判断：</b>'+esc(j.fitNote||"需核实具体专业及证书要求")+'<details><summary>'+(j.type==="career"?"查看经验门槛／风险／来源":"查看岗位要求与来源")+'</summary>'+(j.experience?'<p><b>经验学历：</b>'+esc(j.experience)+'</p>':"")+(j.risk?'<p><b>特别提醒：</b>'+esc(j.risk)+'</p>':"")+'<p>'+esc(j.detail||"")+'</p><p>来源：'+esc(j.source||"招聘原页")+'。核验快照：'+esc(DB.verifiedAsOf)+'</p></details></div>'+
+'<div class="jobactions"><a href="'+esc(j.url)+'" target="_blank" rel="noopener noreferrer">'+(j.jobPlatform==="BOSS直聘"?"BOSS职位搜索页 ↗":"公告／岗位原页 ↗")+'<button data-star="'+esc(j.id)+'">'+(star?"★ 取消标星":"☆ 标星")+'</button><button data-ignore="'+esc(j.id)+'">'+(ign?"恢复岗位":"忽略")+'</button></div></article>';
 return t;
 }
 function drawList(type){let arr=selectedJobs(type),count=byId("listCount");if(count)count.textContent="显示 "+arr.length+" 条 · 以音乐确认、资格和地区优先级排序";const list=byId("jobList");if(list)list.innerHTML=arr.length?arr.map(jobCard).join(""):'<div class="empty">当前筛选下没有已核实岗位。可放宽日期、学段，或切换“已忽略”“待核公告”。</div>';}
