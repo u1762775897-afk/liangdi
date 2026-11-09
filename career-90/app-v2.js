@@ -31,7 +31,7 @@ const fitCls=j=>j.fit==="较匹配"?"green":/不符|条件偏弱/.test(j.fit||""
 function pDate(d){return d?d.slice(0,10).replaceAll("-","."):"待核实"}
 function pDeadline(j){if(j.deadline)return j.deadline.slice(0,10).replaceAll("-",".")+" "+j.deadline.slice(11,16);if(j.deadlineDate)return pDate(j.deadlineDate)+"（时点未核）";return "未公布／招满即止"}
 function options(items,value){return items.map(x=>'<option value="'+esc(x[0])+'" '+(x[0]===value?"selected":"")+'>'+esc(x[1])+"</option>").join("")}
-function stateCounts(){return{music:JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed).length,career:JOBS.filter(j=>j.type==="career").length,stars:starred.length,urgent:JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed&&isUrgent(j)).length,added:JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed&&enteredThisScan(j)).length}}
+function stateCounts(){return{music:JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed).length,career:JOBS.filter(j=>j.type==="career").length,stars:starred.length,urgent:JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed&&isUrgent(j)).length,added:JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed&&enteredThisScan(j)&&!isExpired(j)).length}}
 function render(){
 document.title=labels[page]+"｜职业导师规划";
 document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav===page));
