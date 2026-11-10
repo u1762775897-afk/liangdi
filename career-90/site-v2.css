@@ -101,3 +101,29 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 .job-fit strong{display:block;color:#32536d;font-size:11px;line-height:1.4}
 .job-fit p{margin:3px 0 0;font-size:11px;line-height:1.56;color:#526d80}
 @media(max-width:760px){.job-fit{padding:9px}.job-fit p{font-size:11px}}
+
+
+/* 2026 recruitment clarity update */
+.status-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 16px}
+.status-tile{border:1px solid transparent;border-radius:14px;padding:13px 14px;text-align:left;min-height:94px;display:flex;flex-direction:column;align-items:flex-start;box-shadow:0 7px 18px rgba(22,45,67,.07)}
+button.status-tile{width:100%}
+.status-tile span{font-size:12px;font-weight:800}.status-tile strong{font-size:28px;line-height:1.1;margin:4px 0}.status-tile small{font-size:11px;opacity:.78}
+.blue-tile{background:#eaf4ff;border-color:#a8cfee;color:#155a91}.red-tile{background:#fff0f2;border-color:#f0a7b1;color:#a91f35}.orange-tile{background:#fff7e8;border-color:#e8c485;color:#8a5a0a}.green-tile{background:#eaf8f2;border-color:#9bd4c1;color:#17634f}
+.color-legend{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.color-legend span{border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800}
+.legend-blue{background:#eaf4ff;color:#155a91}.legend-red{background:#fff0f2;color:#a91f35}.legend-green{background:#eaf8f2;color:#17634f}.legend-orange{background:#fff7e8;color:#8a5a0a}
+.job{border-left:5px solid #d7e2ec;transition:border-color .2s,box-shadow .2s,transform .2s}
+.job.state-new{border-left-color:#2a78b6;box-shadow:0 8px 24px rgba(42,120,182,.12)}
+.job.state-open{border-left-color:#24946f}
+.job.state-pending{border-left-color:#d09a3d}
+.job.state-urgent{border-left-color:#d63c52;box-shadow:0 8px 24px rgba(198,46,68,.14)}
+.job.state-closed{border-left-color:#a8b3be;opacity:.74}
+.badge.blue{background:#eaf4ff;color:#155a91;border-color:#b7d8ef}
+.new-mini{border-left:4px solid #2a78b6;background:#f7fbff}.blue-dot{background:#2a78b6!important;color:white!important}.blue-text{color:#155a91!important}.new-list{box-shadow:0 8px 22px rgba(42,120,182,.08)}
+.color-title{margin-top:22px}
+@media(max-width:760px){
+ .status-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .status-tile{min-height:82px;padding:11px}.status-tile strong{font-size:24px}
+ .color-legend{display:grid;grid-template-columns:1fr 1fr}
+ .color-legend span{text-align:center;padding:7px 5px}
+ .job{border-left-width:4px}
+}
