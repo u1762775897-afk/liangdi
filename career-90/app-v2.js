@@ -61,10 +61,10 @@ function renderRecruitment(type){
 const teacher=type==="teacher",mode=teacher?teacherMode:careerMode,region=teacher?teacherRegion:careerRegion,level=teacher?teacherLevel:"all",nature=teacher?teacherNature:careerSector,date=teacher?teacherDate:careerDate,year=teacher?teacherYear:careerYear,sort=teacher?teacherSort:careerSort,query=teacher?searchTeacher:searchCareer;
 const all=JOBS.filter(j=>j.type===type),nIgnored=all.filter(j=>ignored.includes(j.id)).length;
 const teacherModes=[["music","全部音乐"],["fresh","新收录"],["today","今日发布"],["urgent","临近截止"],["open","报名中"],["watch","待核公告"],["ignored","已忽略 ("+nIgnored+")"]];
-const careerModes=[["all","全部职业"],["fresh","新收录"],["today","今日发布"],["urgent","临近截止"],["open","报名中"],["boss","BOSS直聘"],["public","事业单位"],["state","国企"],["enterprise","企业"],["admin","高校行政"],["ignored","已忽略 ("+nIgnored+")"]];
+const careerModes=[["all","全部职业"],["fresh","新收录"],["today","今日发布"],["urgent","临近截止"],["open","报名中"],["boss","BOSS直聘"],["admissions","高校招生／国际交流"],["public","事业单位"],["state","国企"],["enterprise","企业"],["admin","高校行政"],["ignored","已忽略 ("+nIgnored+")"]];
 const modes=teacher?teacherModes:careerModes;
 const levelOptions=[["all","全部学段"],["小学","小学"],["初中","初中"],["高中","高中"],["中职","中职／技工"],["高职","高职／专科"],["高校","本科／高校"],["义务教育","义务教育"]];
-const kinds=teacher?[["all","全部性质"],["事业编制","公办编制"],["民办","民办／合同"],["公办非编","公办非编／代课"],["高校","高校事业／高校"]]:[["all","全部类型"],["事业单位","事业单位"],["国企","国企"],["企业","企业"],["高校行政","高校行政"]];
+const kinds=teacher?[["all","全部性质"],["事业编制","公办编制"],["民办","民办／合同"],["公办非编","公办非编／代课"],["高校","高校事业／高校"]]:[["all","全部类型"],["事业单位","事业单位"],["国企","国企"],["企业","企业"],["高校行政","高校行政"],["高校招生／国际交流","高校招生／国际交流"]];
 const sorted=[["recommend","推荐排序"],["recent","公告最新"],["old","公告最早"],["deadline","截止最近"],["salary","金额最高"]];
 const n7=JOBS.filter(j=>j.type===type&&j.musicConfirmed!==false&&isRecent(j,7)).length;
 const visibleBase=JOBS.filter(j=>j.type===type&&(teacher?j.musicConfirmed!==false:true)&&!isExpired(j));
@@ -96,7 +96,7 @@ const ig=ignored.includes(j.id);
 if(mode==="ignored")return ig;else if(ig)return false;
 if(mode==="fresh"&&!enteredThisScan(j))return false;if(mode==="today"&&!isNewToday(j))return false;if(mode==="urgent"&&!isUrgent(j))return false;if(mode==="open"&&j.status!=="报名时段")return false;
 if(teacher){if(mode!=="watch"&&mode!=="ignored"&&!j.musicConfirmed)return false;if(mode==="watch"&&j.musicConfirmed)return false;if(level!=="all"&&j.level!==level)return false;if(sector==="事业编制"&&!/事业编制/.test(j.nature||""))return false;if(sector==="民办"&&!/民办/.test(j.nature||""))return false;if(sector==="公办非编"&&!/合同代课|编外|购买服务/.test(j.nature||""))return false;if(sector==="高校"&&!/高校|高职/.test(j.nature||""))return false;if(onlyFit&&/不符|偏弱/.test(j.fit||""))return false;
-}else{let sec=j.sector||(j.nature==="国企岗位"?"国企":j.nature==="高校行政岗"?"高校行政":"企业");if(mode==="boss"&&j.jobPlatform!=="BOSS直聘")return false;if(mode==="public"&&sec!=="事业单位")return false;if(mode==="state"&&sec!=="国企")return false;if(mode==="enterprise"&&sec!=="企业")return false;if(mode==="admin"&&sec!=="高校行政")return false;if(sector!=="all"&&sec!==sector)return false;}
+}else{let sec=j.sector||(j.nature==="国企岗位"?"国企":j.nature==="高校行政岗"?"高校行政":"企业");if(mode==="boss"&&j.jobPlatform!=="BOSS直聘")return false;if(mode==="admissions"&&sec!=="高校招生／国际交流")return false;if(mode==="public"&&sec!=="事业单位")return false;if(mode==="state"&&sec!=="国企")return false;if(mode==="enterprise"&&sec!=="企业")return false;if(mode==="admin"&&!sec.startsWith("高校"))return false;if(sector!=="all"&&sec!==sector)return false;}
 if(!inArea(j,region))return false;
 if(year!=="all"&&!(j.post||"").startsWith(year))return false;
 if(date!=="all"&&!isRecent(j,Number(date)))return false;
