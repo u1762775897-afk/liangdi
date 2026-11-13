@@ -141,3 +141,31 @@ button.status-tile{width:100%}
  .career-lanes{grid-template-columns:1fr;gap:7px}.career-lanes button{padding:10px 11px}
  .bigtech-links{gap:6px}.bigtech-links b{width:100%}.bigtech-links a{font-size:12px}
 }
+
+/* 2026-11-13: mobile-first compact non-teaching career radar */
+.career-filters .chips,.career-filters .color-legend,.career-filters .area-text{display:none}
+.career-filters .filters>div:nth-child(2),.career-filters .filters>div:nth-child(4){display:none}
+.career-filters .filters{grid-template-columns:minmax(0,1.8fr) minmax(110px,1fr) minmax(120px,1fr)}
+.career-filters .filters .search{grid-column:auto}
+.career-filters .tabs{gap:5px;margin:3px 0 12px}
+.career-filters .tabs button{padding:7px 9px;font-size:11px}
+.career-compact{padding:13px 14px}
+.career-compact h3{font-size:14px}
+.career-compact .jobhead{margin-bottom:7px}
+.career-salary{font-size:20px;font-weight:850;letter-spacing:-.3px;color:#235776;margin:8px 0 9px}
+.career-line{font-size:11px;line-height:1.55;color:#50687c;margin:5px 0}
+.career-line b{color:#2d506b}
+.career-date{font-size:10px;color:#7c8fa0;margin:9px 0 2px}
+.career-details{font-size:11px;color:#61798c;border-top:1px solid #e5ecf3;margin-top:10px;padding-top:9px}
+.career-details summary{cursor:pointer;color:#2d648d;font-size:11px;font-weight:800}
+.career-details p{font-size:11px;line-height:1.55;margin:6px 0}
+.career-unmatched{border-left:3px solid #c64c59}
+@media(max-width:760px){
+.career-filters .filters{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.career-filters .filters .search{grid-column:span 2}
+.career-filters .tabs{gap:4px}
+.career-filters .tabs button{padding:7px 8px;font-size:10px}
+.career-compact{padding:12px}
+.career-salary{font-size:18px}
+.career-compact .jobactions{margin-top:9px}
+}
