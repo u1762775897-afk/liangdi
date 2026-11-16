@@ -10,6 +10,7 @@ function store(key,val){try{localStorage.setItem(key,JSON.stringify(val))}catch(
 let starred=load("ld-fav-jobs"), ignored=load("ld-hide-jobs");
 let page=["home","teacher","career","study","pay"].includes(location.hash.slice(1))?location.hash.slice(1):"home";
 let teacherMode="music",careerMode="recommended",teacherRegion="all",careerRegion="all",teacherLevel="all",teacherNature="all",careerSector="all",searchTeacher="",searchCareer="",teacherSort="recommend",careerSort="recommend",teacherDate="all",careerDate="all",teacherYear="2026",careerYear="2026",showPast=false,onlyFit=false;
+let studyStartTime="13:30";
 let salaryRegion="广东",salaryType="编制教师",salaryYear=1,salaryScenario="基准",salaryExpense=6500;
 const validStates=["报名时段","有效性待核","储备待确认"];
 const labels={home:"职业导师规划",teacher:"教师招聘",career:"职业招聘",study:"学习规划",pay:"薪酬与晋升"};
@@ -39,7 +40,7 @@ document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b
 byId("title").textContent=labels[page];byId("subtitle").textContent=subdesc[page];
 byId("stamp").textContent="数据核验 "+DB.verifiedAsOf;
 let html=page==="home"?renderHome():page==="teacher"?renderRecruitment("teacher"):page==="career"?renderRecruitment("career"):page==="study"?renderStudy():renderPay();
-byId("view").innerHTML=html; if(page==="teacher"||page==="career")bindRecruitment(page);if(page==="pay")bindPay();
+byId("view").innerHTML=html; if(page==="teacher"||page==="career")bindRecruitment(page);if(page==="pay")bindPay();if(page==="study")bindStudy();
 }
 function navigate(tab){if(!labels[tab])tab="home";page=tab;history.replaceState(null,"","#"+tab);render();window.scrollTo(0,0)}
 function renderHome(){
@@ -161,7 +162,39 @@ byId("sortFilter").addEventListener("change",e=>{if(type==="teacher")teacherSort
 drawList(type);
 }
 function flip(id,which){if(which==="star"){starred=starred.includes(id)?starred.filter(x=>x!==id):starred.concat([id]);store("ld-fav-jobs",starred)}else{ignored=ignored.includes(id)?ignored.filter(x=>x!==id):ignored.concat([id]);store("ld-hide-jobs",ignored)}render()}
-function renderStudy(){return '<div class="hero"><small>STUDY TRACKER</small><h2>学习进度 · 只记录真实完成</h2><p>没有主动汇报的日期记为0，不按计划自动加进度。</p></div><div class="study-grid"><div class="study-card"><span class="small">教育综合教材</span><strong>已通读</strong><div class="progress"><i style="width:100%"></i></div><p>后续重点是专项刷题与错题。</p></div><div class="study-card"><span class="small">教育心理学专项</span><strong>0题已确认</strong><div class="progress"><i style="width:0%"></i></div><p>尚未启动新的专项刷题；普通心理学旧错题另计。</p></div><div class="study-card"><span class="small">音乐学科</span><strong class="red">尚未开始</strong><div class="progress"><i style="width:0%"></i></div><p>教材、音乐史、乐理、教法、试讲。</p></div></div><div class="section"><h2>今天只做3件事</h2></div><div class="minirows"><div class="minirow"><span class="dot">1</span><div><b>教育心理学第一章 · 启动专项刷题</b><small>记题数与错题。</small></div></div><div class="minirow"><span class="dot">2</span><div><b>音乐学科 · 启动第一节</b><small>从教材或乐理专项开始。</small></div></div><div class="minirow"><span class="dot">3</span><div><b>旧章复习 · 按错题优先</b><small>做完后汇报实际章数和正确率。</small></div></div></div><div class="section"><h2>学习记录</h2></div><div class="panel"><p class="tiny">教材已通读；教育心理学专项题尚未开始（0题已确认）；音乐学科尚未开始。没有新的真实汇报前，不改动完成状态。</p><button class="btn-outline" data-copy-study="1">复制今日打卡模板</button></div>';}
+
+function studyClock(minutes){const t=(minutes+1440)%1440;return String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0")}
+function studySlot(minuteOffset,duration,title,topic,method,finish,kind){
+ const start=studyStartTime.split(":").map(Number),base=(start[0]||0)*60+(start[1]||0);
+ return '<div class="study-slot '+(kind||"")+'"><div class="study-slot-time"><b>'+studyClock(base+minuteOffset)+'</b><span>—</span><b>'+studyClock(base+minuteOffset+duration)+'</b><small>'+duration+'分钟</small></div>'+
+ '<div class="study-slot-text"><strong>'+title+'</strong><div>'+topic+'</div><p><b>怎么做：</b>'+method+'</p>'+(finish?'<small><b>目标：</b>'+finish+'</small>':"")+'</div></div>';
+}
+function renderStudy(){
+const slots=[
+ studySlot(0,15,"教综｜回忆旧章","教育心理学已学知识点与之前错题","合上书默写关键词，专看错题，不重新通读整本。","完成一页高频易错点速记",""),
+ studySlot(15,65,"教综｜专项刷题","教育心理学当前未完成章节","按教材目录顺序，先独立做40—50道单选／多选；错题标章节和考点，不边看答案边做。","记录实做题数和正确率",""),
+ studySlot(80,40,"教综｜错题回查","刚才错的题＋薄弱知识点","逐题复盘：题干 → 正确答案 → 极简原因；回教材仅补不懂的点，最后闭卷重做。","至少整理8—12道错题（少于则全整理）",""),
+ studySlot(120,20,"休息","离开学习资料","喝水、走动、吃点东西，不刷碎片信息。","","rest"),
+ studySlot(140,45,"音乐学科｜乐理基础","音程、调式调性、和弦及转位","先学概念20分钟，再写例题25分钟。优先掌握构成与辨认，不只背定义。","完成20道乐理基础题",""),
+ studySlot(185,45,"音乐学科｜中西音乐史","中国音乐史或西方音乐史的第一组章节","按时间线记录时期—人物—代表作品—风格；用选择题检验人物和作品的对应关系。","完成约20道选择题并记易混点",""),
+ studySlot(230,30,"音乐学科｜教学与巩固","义务教育音乐课程标准与教学设计基础","看1个教学目标/活动设计例子，尝试口述5分钟，剩余时间回做乐理和音乐史错题。","能说出1个清晰的课堂活动设计",""),
+ studySlot(260,15,"复盘｜今天打卡","教综、音乐学科的实际完成量","填写实做题数、正确率、错题数和下次接续章节；没做的不勾选、不视为完成。","留下明天继续的具体起点","")
+];
+return '<div class="hero"><small>STUDY · TIME-BLOCK PLAN</small><h2>今天怎么学｜按时间执行</h2><p>先完成教综刷题与错题，再专注音乐学科；计划不等于真实完成。</p></div>'+
+ '<div class="panel study-clockbar"><div><strong>设置今天开始时间</strong><small>默认13:30，可按实际开始时间调整，整张计划自动顺延。</small></div><input type="time" id="studyStart" value="'+esc(studyStartTime)+'" aria-label="学习开始时间"></div>'+
+ '<div class="study-total"><div><b>2小时</b><span>教综｜刷题＋错题</span></div><div><b>20分钟</b><span>休息</span></div><div><b>2小时</b><span>音乐学科</span></div><div><b>15分钟</b><span>总结打卡</span></div></div>'+
+ '<div class="section"><h2>逐时段任务</h2><small>每段写明怎么做与完成目标</small></div><div class="study-timeline">'+slots.join("")+'</div>'+
+ '<div class="section"><h2>当前真实进度</h2><small>未汇报完成，不自动增加</small></div>'+
+ '<div class="study-grid"><div class="study-card"><span class="small">教育综合教材</span><strong>已通读</strong><p>重点：教育心理学专项题、错题复盘。</p></div>'+
+ '<div class="study-card"><span class="small">教育心理学专项</span><strong>0题已确认</strong><p>以实际汇报的题量为准，不把计划题量计入。</p></div>'+
+ '<div class="study-card"><span class="small">音乐学科</span><strong class="red">尚未确认开始</strong><p>本计划先从乐理、音乐史与教学设计启动。</p></div></div>'+
+ '<div class="panel study-checkin"><b>学习结束后填写</b><p>教综：__题，正确__题，错题__道；音乐：乐理__题、音乐史__题、教学设计__个；下一次从__章开始。</p><button class="btn-outline" data-copy-study="1">复制打卡模板</button></div>';
+}
+function bindStudy(){
+ const field=byId("studyStart");
+ if(!field)return;
+ field.addEventListener("change",e=>{const v=e.target.value;if(!/^\d\d:\d\d$/.test(v))return;studyStartTime=v;render();});
+}
 const payBases={
 "广东":{"编制教师":[8800,24000],"民办合同":[10200,18000],"高校／高职":[8900,20000]},
 "浙江":{"编制教师":[9500,28000],"民办合同":[10500,24000],"高校／高职":[9300,25000]},
