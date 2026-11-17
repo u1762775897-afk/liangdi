@@ -13,7 +13,7 @@ let teacherMode="music",careerMode="recommended",teacherRegion="all",careerRegio
 let studyStartTime="13:30";
 let salaryRegion="广东",salaryType="编制教师",salaryYear=1,salaryScenario="基准",salaryExpense=6500;
 const validStates=["报名时段","有效性待核","储备待确认"];
-const labels={home:"职业导师规划",teacher:"教师招聘",career:"职业招聘",study:"学习规划",pay:"薪酬与晋升"};
+const labels={home:"招聘检索 · 招聘库",teacher:"教师招聘",career:"职业招聘",study:"学习规划",pay:"薪酬与晋升"};
 const subdesc={home:"只看最重要的机会、学习与下一步。",teacher:"音乐岗位覆盖小学至高校，公告时间与薪酬优先。",career:"企业、国企、事业单位、非教学高校岗位分开。",study:"真实进度，三项重点，一眼看懂。",pay:"广东、浙江、福建及沿海地区的职业薪酬情景曲线。"};
 const areaOptions=[["all","全部重点地区"],["prd","珠三角"],["gd","广东"],["zj","浙江"],["fj","福建"],["jzh","江浙沪"],["bj","京津与环渤海"],["other","其他沿海"]];
 const tier=(j)=>j.city?.includes("深圳")?100:j.city?.includes("东莞")?95:j.city?.includes("广州")?90:j.city?.includes("佛山")||j.city?.includes("珠海")||j.city?.includes("惠州")?85:j.province==="浙江"&&j.city?.includes("杭州")?80:j.province==="浙江"&&j.city?.includes("宁波")?78:j.province==="浙江"?76:j.province==="福建"?71:j.province==="上海"?68:j.province==="江苏"?65:j.province==="北京"?62:j.province==="天津"?61:j.province==="山东"?60:10;
@@ -35,7 +35,7 @@ function pDeadline(j){if(j.deadline)return j.deadline.slice(0,10).replaceAll("-"
 function options(items,value){return items.map(x=>'<option value="'+esc(x[0])+'" '+(x[0]===value?"selected":"")+'>'+esc(x[1])+"</option>").join("")}
 function stateCounts(){return{music:JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed).length,career:JOBS.filter(j=>j.type==="career").length,stars:starred.length,urgent:JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed&&isUrgent(j)).length,added:JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed&&enteredThisScan(j)&&!isExpired(j)).length}}
 function render(){
-document.title=labels[page]+"｜职业导师规划";
+document.title=labels[page]+"｜招聘检索 · 招聘库";
 document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav===page));
 byId("title").textContent=labels[page];byId("subtitle").textContent=subdesc[page];
 byId("stamp").textContent="数据核验 "+DB.verifiedAsOf;
@@ -56,7 +56,7 @@ return '<div class="hero"><small>YOUR NEXT MOVE</small><h2>收入、人脉、时
 '<div class="section color-title"><h2>今日公告 · '+publishedToday.length+'条</h2><small>只按公告原始发布日期计算，未核实不计</small></div><div class="minirows"><div class="minirow"><span class="dot blue-dot">今</span><div><b>'+ (publishedToday.length?publishedToday.map(j=>esc(j.org)+' · '+esc(j.title)).join('；'):'本轮暂无已确认11月17日发布的岗位') +'</b><small>新收录与今日发布分开统计；仅代表已检查范围</small></div></div></div>'+ 
 '<div class="section color-title"><h2>本轮新增岗位</h2><small class="blue-text">蓝色＝本轮首次收录，不等于今天发布</small></div><div class="minirows new-list">'+addedRows+'</div>'+
 '<div class="section"><h2>最需要关注</h2><small>红色＝3天内截止</small></div><div class="minirows">'+top+'</div>'+
-'<div class="callout"><b>11月17日职业导师校准｜已复核，假设未变</b><br>国家统计局于11月16日10:00公布的是2026年10月经济数据：城镇调查失业率5.1%，工业增加值同比增长4.8%，服务业生产指数同比增长4.6%，1—10月服务零售额增长4.9%，10月CPI同比上涨0.7%。这些不是11月17日新发布数据，也不是个人薪资证据。文体休闲服务消费较快增长，但不能据此推断文化艺术招聘或薪资上涨。<br>六条路线仍按收入、人脉、可支配时间、发展和实际报名资格比较；5/10/20/30年基准、压力、乐观情景参数已复核、假设未变，未重新执行全套数值模拟。<br><a href="https://www.stats.gov.cn/sj/xwfbh/fbhwd/202611/t20261116_1965844.html" target="_blank" rel="noopener">国家统计局：11月16日发布10月经济数据</a> · <a href="https://www.moe.gov.cn/jyb_xwfb/gzdt_gzdt/s5987/202609/t20260918_1451304.html" target="_blank" rel="noopener">教育部：2027届校园招聘活动（2026届资格须逐岗核实）</a></div>'+
+'<div class="callout"><b>11月17日职业方向校准｜已复核，假设未变</b><br>国家统计局于11月16日10:00公布的是2026年10月经济数据：城镇调查失业率5.1%，工业增加值同比增长4.8%，服务业生产指数同比增长4.6%，1—10月服务零售额增长4.9%，10月CPI同比上涨0.7%。这些不是11月17日新发布数据，也不是个人薪资证据。文体休闲服务消费较快增长，但不能据此推断文化艺术招聘或薪资上涨。<br>六条路线仍按收入、人脉、可支配时间、发展和实际报名资格比较；5/10/20/30年基准、压力、乐观情景参数已复核、假设未变，未重新执行全套数值模拟。<br><a href="https://www.stats.gov.cn/sj/xwfbh/fbhwd/202611/t20261116_1965844.html" target="_blank" rel="noopener">国家统计局：11月16日发布10月经济数据</a> · <a href="https://www.moe.gov.cn/jyb_xwfb/gzdt_gzdt/s5987/202609/t20260918_1451304.html" target="_blank" rel="noopener">教育部：2027届校园招聘活动（2026届资格须逐岗核实）</a></div>'+
 '<div class="section"><h2>今天三件事</h2><small>计划不等于完成</small></div><div class="minirows"><div class="minirow"><span class="dot">1</span><div><b>核对11月17日仍开放的岗位与18—19日招聘会</b><small>优先深圳、东莞及珠三角；核实2026届资格、留服补交、具体岗位与截止时分。招聘会不等于已确认适配岗位。</small></div></div><div class="minirow"><span class="dot">2</span><div><b>教育心理学第一章专项刷题</b><small>此前确认0道，未汇报实际完成不增加进度。</small></div></div><div class="minirow"><span class="dot">3</span><div><b>音乐学科第一章入门＋普通心理学旧错题</b><small>按实际学习记录章节、题量、错题与复习日期；计划不计完成。</small></div></div></div>'+
 '<div class="callout"><b>扫描与核验边界</b><br>11月17日补查深圳高校招聘，并对浙江高校行政岗位的语言门槛与截止日期进行复核；本轮覆盖有限，岗位库最近记录的核验批次为'+esc(DB.verifiedAsOf)+'，本次没有独立完成各地官方招聘和BOSS岗位逐条实时核验。来源目录不等于全量检查，未经原公告核实的岗位不得视为可投；浏览器本地“我的新情况”无法自动读取。</div>'+
 '<div class="callout">材料节点：2026年完成学业，毕业证预计11月底取得；留服认证预计2027年1月。境外学历是否允许补交必须逐公告核实。岗位库最后核验：'+esc(DB.verifiedAsOf)+'。</div>'+renderSourceAudit();
