@@ -47,7 +47,7 @@ function renderHome(){
 const c=stateCounts();
 const critical=JOBS.filter(j=>j.type==="teacher"&&j.musicConfirmed&&isUrgent(j)).sort((a,b)=>daysToDeadline(a)-daysToDeadline(b)).slice(0,2);
 const recentAdded=JOBS.filter(j=>enteredThisScan(j)&&!isExpired(j)).sort((a,b)=>(b.post||"").localeCompare(a.post||"")).slice(0,6);
-const publishedToday=JOBS.filter(j=>j.post==="2026-11-17"&&!isExpired(j));
+const publishedToday=JOBS.filter(j=>j.post==="2026-11-17"&&!isExpired(j)&&j.status==="报名时段"&&j.source&&j.url);
 const addedRows=recentAdded.length?recentAdded.map(j=>'<div class="minirow new-mini"><span class="dot blue-dot">新</span><div style="flex:1"><b>'+esc(j.org)+' · '+esc(j.title)+'</b><small>'+esc(j.type==="teacher"?"教师招聘":"职业招聘")+' · 公告 '+pDate(j.post)+' · '+esc(j.status||"待核")+'</small></div><button class="btn-outline" data-nav="'+esc(j.type)+'">查看</button></div>').join(""):'<div class="minirow"><span class="dot">✓</span><div><b>本轮没有新增记录</b><small>不会把旧公告冒充新增。</small></div></div>';
 let top=critical.length?critical.map(j=>'<div class="minirow"><span class="dot" style="color:#ae3145;background:#fff0f2">!</span><div style="flex:1"><b>'+esc(j.org)+' · '+esc(j.title)+'</b><small>截止 '+pDeadline(j)+' · '+esc(j.fit)+'</small></div><button class="btn-outline" data-nav="teacher">查看</button></div>').join(""):'<div class="minirow"><span class="dot">✓</span><div><b>没有已核实的72小时内截止音乐岗位</b><small>仍可查看其他时间段及资格待核的公告</small></div></div>';
 return '<div class="hero"><small>YOUR NEXT MOVE</small><h2>收入、人脉、时间——先看值得投的机会。</h2><p>重点覆盖珠三角、浙江、福建、江浙沪和京津。深圳始终优先排序。</p></div>'+
