@@ -13,7 +13,7 @@ let teacherMode="music",careerMode="recommended",teacherRegion="all",careerRegio
 let studyStartTime="13:30";
 let salaryRegion="广东",salaryType="编制教师",salaryYear=1,salaryScenario="基准",salaryExpense=6500;
 const validStates=["报名时段","有效性待核","储备待确认"];
-const labels={home:"招聘检索 · 招聘库",teacher:"教师招聘",career:"职业规划",study:"学习规划",pay:"薪酬与晋升"};
+const labels={home:"广东浙江招聘双选会雷达",teacher:"教师招聘",career:"职业规划",study:"学习规划",pay:"薪酬与晋升"};
 const subdesc={home:"只看最重要的机会、学习与下一步。",teacher:"音乐岗位覆盖小学至高校，公告时间与薪酬优先。",career:"按央国企、大厂、文化艺术、高校行政和国际教育分赛道择岗。",study:"真实进度，三项重点，一眼看懂。",pay:"广东、浙江、福建及沿海地区的职业薪酬情景曲线。"};
 const areaOptions=[["all","全部重点地区"],["prd","珠三角"],["gd","广东"],["zj","浙江"],["fj","福建"],["jzh","江浙沪"],["bj","京津与环渤海"],["other","其他沿海"]];
 const tier=(j)=>j.city?.includes("深圳")?100:j.city?.includes("东莞")?95:j.city?.includes("广州")?90:j.city?.includes("佛山")||j.city?.includes("珠海")||j.city?.includes("惠州")?85:j.province==="浙江"&&j.city?.includes("杭州")?80:j.province==="浙江"&&j.city?.includes("宁波")?78:j.province==="浙江"?76:j.province==="福建"?71:j.province==="上海"?68:j.province==="江苏"?65:j.province==="北京"?62:j.province==="天津"?61:j.province==="山东"?60:10;
