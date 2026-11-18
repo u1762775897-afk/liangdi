@@ -194,3 +194,38 @@ button.status-tile{width:100%}
 .study-checkin b{font-size:13px}
 .study-checkin p{font-size:11px;line-height:1.7;color:#647d92}
 @media(max-width:760px){.study-total{grid-template-columns:repeat(2,1fr)}.study-slot{grid-template-columns:80px 1fr;gap:9px;padding:10px}.study-slot-time b{font-size:12px}.study-slot-text strong{font-size:12px}.study-clockbar{padding:12px}.study-clockbar small{font-size:10px}}
+
+
+/* career-roadmap-20261118 */
+.career-roadmap{margin:12px 0 16px;padding:16px;border:1px solid rgba(94,150,255,.25);border-radius:18px;background:linear-gradient(145deg,rgba(17,49,92,.96),rgba(8,28,57,.96));box-shadow:0 14px 34px rgba(3,15,35,.18)}
+.career-roadmap-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.7fr);gap:14px;align-items:end}
+.career-roadmap-head span{font-size:11px;letter-spacing:.12em;color:#8ec5ff}
+.career-roadmap-head h3{margin:5px 0 6px;font-size:22px;color:#fff}
+.career-roadmap-head p{margin:0;max-width:760px;font-size:13px;line-height:1.65;color:#bfd0e8}
+.career-priority{padding:12px 14px;border:1px solid rgba(122,179,255,.25);border-radius:14px;background:rgba(255,255,255,.06)}
+.career-priority b{display:block;margin-bottom:5px;font-size:11px;color:#85bcff}
+.career-priority strong{display:block;font-size:13px;line-height:1.6;color:#fff}
+.career-track-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.career-track-grid details{border:1px solid rgba(128,176,238,.2);border-radius:14px;background:rgba(4,20,43,.55);overflow:hidden}
+.career-track-grid details:nth-child(5){grid-column:1/-1}
+.career-track-grid summary{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:12px;cursor:pointer;list-style:none}
+.career-track-grid summary::-webkit-details-marker{display:none}
+.career-track-grid summary b{font-size:14px;color:#fff}
+.career-track-grid summary em{font-style:normal;font-size:11px;color:#8fc5ff}
+.track-no{display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:#1f6fd1;color:#fff;font-size:11px}
+.track-body{padding:0 12px 12px 48px}
+.track-body p{margin:6px 0;font-size:12px;line-height:1.6;color:#bed0e7}
+.track-body b{color:#fff}
+.career-rule{margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(255,184,76,.1);color:#ffd49a;font-size:12px;line-height:1.6}
+@media(max-width:720px){
+ .career-roadmap{padding:12px;border-radius:15px}
+ .career-roadmap-head,.career-track-grid{grid-template-columns:1fr}
+ .career-roadmap-head h3{font-size:18px}
+ .career-priority{padding:10px 12px}
+ .career-track-grid details:nth-child(5){grid-column:auto}
+ .career-track-grid summary{grid-template-columns:26px 1fr}
+ .career-track-grid summary em{grid-column:2;font-size:10px}
+ .track-no{width:26px;height:26px}
+ .track-body{padding:0 10px 10px 44px}
+ .track-body p{font-size:11.5px}
+}
