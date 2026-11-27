@@ -24,7 +24,7 @@ const isRecent=(j,n)=>{let t=toDate(j.post);let dif=t==null?100:Math.floor((now(
 const isNewToday=j=>!!j.post&&j.post===todayCN();
 const isRecentListing=(j,n)=>isRecent(j,n)||!!j.platformUpdated&&isRecent({post:j.platformUpdated},n);
 const newestDate=j=>(j.platformUpdated&&j.platformUpdated>(j.post||"")?j.platformUpdated:j.post)||"";
-const dateKind=j=>j.post?"公告 "+pDate(j.post):(j.platformUpdated?"平台更新 "+pDate(j.platformUpdated):"公告日待核");
+const dateKind=j=>j.post?("公告 "+pDate(j.post)+(j.platformUpdated?" · 更新 "+pDate(j.platformUpdated):"")):(j.platformUpdated?"平台更新 "+pDate(j.platformUpdated):"公告日待核");
 const enteredThisScan=j=>j.addedBatch===DB.scanBatch;
 const deadlineTimestamp=j=>j.deadline?new Date(j.deadline).getTime():j.deadlineDate?new Date(j.deadlineDate+"T23:59:59+08:00").getTime():null;
 const daysToDeadline=j=>{let t=deadlineTimestamp(j);return t==null?999:Math.ceil((t-now())/86400000)};
