@@ -229,3 +229,46 @@ button.status-tile{width:100%}
  .track-body{padding:0 10px 10px 44px}
  .track-body p{font-size:11.5px}
 }
+
+/* 2026-11-27: 15-day compact music-teacher scan */
+.fastlane{margin:11px 0 15px;background:#fff;border:1px solid #dbe5ef;border-radius:12px;overflow:hidden}
+.fast-header{display:flex;justify-content:space-between;align-items:center;gap:6px;background:#ecf3f9;border-bottom:1px solid #dbe5ef;padding:10px 12px}
+.fast-header strong{font-size:13px;color:#214d70}.fast-header small{font-size:10px;color:#697f91}
+.fast-stack{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:7px}
+.fast-row{border:1px solid #e4edf4;border-radius:8px;padding:8px 9px;background:#fff;min-width:0;font-size:11px;line-height:1.42;display:grid;gap:3px}
+.fast-row-top{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.fast-row-top b{font-size:12px;min-width:0;overflow-wrap:anywhere}.fast-row-top span{color:#215f83;font-weight:750;font-size:11px;flex-shrink:0;white-space:nowrap}
+.fast-role{font-weight:700;font-size:11px}.fast-details{color:#708392;font-size:10px;line-height:1.4;overflow-wrap:anywhere}
+.fast-row>a{justify-self:start;font-size:10px;min-height:27px;display:flex;align-items:center;font-weight:800}
+.fast-fold{border-top:1px solid #e3eaf1}.fast-fold summary{cursor:pointer;padding:10px 12px;font-size:12px;font-weight:800;color:#244b70}
+@media(max-width:760px){
+ .teacher-filters .tabs,.teacher-filters .chips{gap:4px;margin:7px 0}
+ .teacher-filters .tabs button,.teacher-filters .chips button{padding:7px 8px;font-size:10px;line-height:1.2}
+ .teacher-filters .filters{gap:5px}
+ .teacher-filters .filters select,.teacher-filters .filters input{padding:8px 7px;font-size:11px;min-height:35px}
+ .fast-stack{grid-template-columns:1fr;gap:0;padding:0}
+ .fast-row{border:0;border-bottom:1px solid #edf1f5;border-radius:0;padding:7px 11px;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 8px}
+ .fast-row-top,.fast-role,.fast-details{grid-column:1;min-width:0}
+ .fast-row>a{grid-column:2;grid-row:1/span 3;min-height:36px;padding:0 4px;white-space:nowrap}
+ .fast-row-top b{font-size:11px}.fast-row-top span{font-size:10px}
+ .teacher-filters{padding:9px}
+ .job{padding:9px 10px;border-radius:10px}
+ .job h3{font-size:13px;line-height:1.28}
+ .job .org{font-size:10px}
+ .job .badges{gap:3px;margin:6px 0}
+ .job .badge{font-size:9px;padding:3px 5px}
+ .job .salarybox{padding:7px 9px;margin:6px 0}
+ .job .salarybox strong{font-size:15px}
+ .job .salarybox small{font-size:9px;line-height:1.28}
+ .job .jobdetails{font-size:10px;line-height:1.45;margin:5px 0}
+ .job .jobactions{margin-top:7px}
+ .jobactions button,.jobactions a{font-size:10px;min-height:34px;padding:7px 9px}
+ .dates>div{padding:6px}
+ .dates strong{font-size:11px}
+ .dates label{font-size:9px}
+ .status-strip{gap:5px;margin:8px 0}
+ .status-tile{padding:8px 9px;min-height:66px;border-radius:9px}
+ .status-tile span,.status-tile small{font-size:10px}
+ .status-tile strong{font-size:20px}
+ .teacher-filters .color-legend,.teacher-filters .area-text{font-size:9px}
+}
